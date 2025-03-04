@@ -46,6 +46,9 @@ INSTALLED_APPS = [
     'corsheaders',
     'storages',
     'django_filters',
+
+    # start apps
+    'account.apps.AccountConfig',
 ]
 
 MIDDLEWARE = [
@@ -173,3 +176,5 @@ SIMPLE_JWT = {
     'AUTH_HEADER_TYPES': ('Bearer',),
     'AUTH_TOKEN_CLASSES': ('rest_framework_simplejwt.tokens.AccessToken',),
 }
+
+APPEND_SLASH=False
