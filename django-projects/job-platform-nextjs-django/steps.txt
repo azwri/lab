@@ -1,0 +1,70 @@
+requirements:
+    - postgresql
+    -postGIS
+    - OSGeo4W
+
+
+- install packages
+pip install django boto3 django-cors-headers python-dotenv django-filter django-storages djangorestframework djangorestframework-simplejwt geocoder gunicorn whitenoise psycopg2 dj-database-url
+
+
+
+- in settings.py
+
+'django.contrib.gis', # Add this line for GeoDjango in installed apps
+
+VENEV_DIR = os.environ.get('VIRTUAL_ENV', None)
+
+
+if os.name == 'nt':
+    GDAL_LIBRARY_PATH = 'C:/OSGeo4W/bin/gdal310.dll'
+    GEOS_LIBRARY_PATH = 'C:/OSGeo4W/bin/geos_c.dll'
+elif os.name == 'posix':
+    if os.uname().sysname == 'Darwin':  # macOS
+        GDAL_LIBRARY_PATH = '/opt/homebrew/Cellar/gdal/3.10.2/lib/libgdal.dylib'
+        GEOS_LIBRARY_PATH = '/opt/homebrew/Cellar/geos/3.13.0/lib/libgeos_c.dylib'
+    else:  # Linux
+        GDAL_LIBRARY_PATH = '/usr/lib/libgdal.so.20'
+        GEOS_LIBRARY_PATH = '/usr/lib/libgeos_c.so.1'
+else:
+    raise Exception('Unsupported OS')
+------------------------------------------------------
+
+
+for window:
+- postgres v15
+- create database
+- install postGIS from stack builder 
+- install gdal (make sure same of python version)
+    https://github.com/cgohlke/geospatial-wheels/releases/tag/v2025.1.20
+    pip install .\GDAL-3.10.1-cp312-cp312-win_amd64.whl
+- add paths
+    GDAL_LIBRARY_PATH = f'{VENEV_DIR}/Lib/site-packages/osgeo/gdal.dll'
+    GEOS_LIBRARY_PATH = f'{VENEV_DIR}/Lib/site-packages/osgeo/geos_c.dll'
+
+- downlaod OSGeo4W
+https://trac.osgeo.org/osgeo4w/
+https://docs.djangoproject.com/en/5.1/ref/contrib/gis/install/
+
+
+- create & open file setup.bat as admin with below:
+set OSGEO4W_ROOT=C:\OSGeo4W
+set GDAL_DATA=%OSGEO4W_ROOT%\apps\gdal\share\gdal
+set PROJ_LIB=%OSGEO4W_ROOT%\share\proj
+set PATH=%PATH%;%OSGEO4W_ROOT%\bin
+reg ADD "HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Environment" /v Path /t REG_EXPAND_SZ /f /d "%PATH%"
+reg ADD "HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Environment" /v GDAL_DATA /t REG_EXPAND_SZ /f /d "%GDAL_DATA%"
+reg ADD "HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Environment" /v PROJ_LIB /t REG_EXPAND_SZ /f /d "%PROJ_LIB%"
+
+
+------------------------------------------------------
+for mac:
+brew install gdal geos
+export GDAL_LIBRARY_PATH=/opt/homebrew/lib/libgdal.dylib 
+export GEOS_LIBRARY_PATH=/opt/homebrew/lib/libgeos_c.dylib
+
+
+
+
+--------------------------------------------------
+
