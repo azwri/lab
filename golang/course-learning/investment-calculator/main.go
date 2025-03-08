@@ -23,6 +23,9 @@ func main() {
 	futureValue := investmentAmount * math.Pow(1+expectedReturnRate/100, years)
 	futureRealValue := futureValue / math.Pow(1+infaltionRate/100, years)
 
-	fmt.Println(futureValue, futureRealValue)
+	formattedFV := fmt.Sprintf("Future Value: %.2f\n", futureValue)
+	formattedRFV := fmt.Sprintf("Future Value (adjusted for inflation): %.2f\n", futureRealValue)
+
+	fmt.Printf(formattedFV, formattedRFV)
 
 }
