@@ -1,3 +1,6 @@
+### go mod init
+go mod init github.com/azwri/lab/tree/main/golang/projects/
+
 
 ### Default Zero Values in Go
 
